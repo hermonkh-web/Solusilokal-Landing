@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolusiLokal.id - Otomatiskan Bisnis Lokal Anda</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS Setup -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: {
+                            50: '#f0fdfc',
+                            100: '#ccfbf8',
+                            500: '#12B8B0',
+                            600: '#0e968f',
+                            700: '#0b7872',
+                        },
+                        dark: '#0f172a'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animasi Kustom */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        
+        /* Efek Kaca untuk Navbar */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Fix scroll horizontal bawaan GAS */
+        body { overflow-x: hidden; }
+        
+        /* Smooth scroll margin agar konten tidak tertutup navbar */
+        .scroll-mt-24 { scroll-margin-top: 6rem; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-500 selection:text-white">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav id="main-nav" class="glass-nav fixed w-full z-50 border-b border-slate-200 transition-all duration-300 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo Vektor Responsif (Navbar) -->
+                <div class="flex items-center gap-2.5 z-50 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <svg viewBox="0 0 100 100" class="h-10 w-10 flex-shrink-0" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <clipPath id="logo-hole-nav">
+                                <path d="M0,0 H100 V100 H0 Z M50,25 L75,50 L50,75 L25,50 Z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </clipPath>
+                        </defs>
+                        <g clip-path="url(#logo-hole-nav)">
+                            <!-- Cyan Left & Top Ribbon -->
+                            <path d="M0,25 L0,0 L50,0 L75,25 L25,25 L25,75 L0,100 Z" fill="#00D0C5" />
+                            <!-- Magenta Right Ribbon -->
+                            <polygon points="75,25 100,0 100,75 75,75" fill="#FF0066" />
+                            <!-- Yellow Bottom Ribbon -->
+                            <polygon points="25,75 75,75 100,100 50,100" fill="#FFC200" />
+                            <!-- Purple Top Inner -->
+                            <polygon points="25,25 75,25 50,50" fill="#D427A5" />
+                            <!-- Orange Right Inner -->
+                            <polygon points="75,25 75,75 50,50" fill="#F78F1E" />
+                            <!-- Green Left Inner -->
+                            <polygon points="25,25 25,75 50,50" fill="#44D677" />
+                        </g>
+                    </svg>
+                    <div class="flex flex-col justify-center leading-[1.15] tracking-tighter select-none">
+                        <span class="text-[1.15rem] font-black text-slate-900">Solusi</span>
+                        <span class="text-[1.15rem] font-black text-slate-900">Lokal.ID</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#fitur" class="nav-link text-slate-600 hover:text-primary-500 font-medium transition">Fitur</a>
+                    <a href="#solusi" class="nav-link text-slate-600 hover:text-primary-500 font-medium transition">Solusi</a>
+                    <a href="#harga" class="nav-link text-slate-600 hover:text-primary-500 font-medium transition">Harga</a>
+                    <a href="https://wa.me/6282150246420?text=Halo%20SolusiLokal.id!%0A%0ASaya%20tertarik%20untuk%20*melihat%20demo%20sistem*%20dan%20ingin%20konsultasi%20otomasi%20untuk%20bisnis%20saya." target="_blank" class="inline-block text-center bg-primary-500 hover:bg-primary-600 text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:scale-95 cursor-pointer">
+                        Request Demo
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="md:hidden flex items-center z-50">
+                    <button id="btn-mobile-menu" class="text-slate-600 p-2 focus:outline-none cursor-pointer">
+                        <i class="ph ph-list text-3xl transition-transform duration-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="hidden md:hidden absolute w-full bg-white border-b border-slate-100 px-4 pt-24 pb-6 shadow-xl top-0 left-0 transition-all duration-300 z-40">
+            <div class="flex flex-col space-y-2">
+                <a href="#fitur" class="nav-link text-slate-600 font-medium py-3 border-b border-slate-50 text-lg">Fitur</a>
+                <a href="#solusi" class="nav-link text-slate-600 font-medium py-3 border-b border-slate-50 text-lg">Solusi</a>
+                <a href="#harga" class="nav-link text-slate-600 font-medium py-3 border-b border-slate-50 text-lg">Harga</a>
+                <a href="https://wa.me/6282150246420?text=Halo%20SolusiLokal.id!%0A%0ASaya%20tertarik%20untuk%20*melihat%20demo%20sistem*%20dan%20ingin%20konsultasi%20otomasi%20untuk%20bisnis%20saya." target="_blank" class="close-mobile-on-click block w-full bg-primary-500 text-white px-6 py-4 rounded-xl font-bold text-center mt-4 active:scale-95 transition-transform cursor-pointer">
+                    Request Demo
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="relative pt-32 pb-16 md:pt-48 md:pb-32 overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl -z-10">
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70"></div>
+            <div class="absolute top-32 -left-24 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-8">
+                <span class="flex h-2 w-2 rounded-full bg-primary-500"></span>
+                <span class="text-sm font-medium text-slate-600">Sistem terbaik untuk UMKM & Institusi Lokal</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-dark tracking-tight leading-tight mb-6">
+                Tinggalkan Cara Manual.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-blue-600">Otomatiskan Bisnis Anda.</span>
+            </h1>
+            
+            <p class="mt-4 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-10 px-2">
+                Sistem booking cerdas, database pelanggan, dan manajemen operasional yang didesain khusus untuk usaha kuliner, studio kreatif, hingga institusi pendidikan.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 w-full max-w-2xl mx-auto px-4">
+                <a href="#harga" class="nav-link w-full sm:w-auto text-center bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-primary-500/30 flex items-center justify-center gap-2 transform hover:-translate-y-1 active:scale-95">
+                    Lihat Pilihan Paket
+                    <i class="ph ph-arrow-right font-bold"></i>
+                </a>
+                <a href="https://wa.me/6282150246420?text=Halo%20SolusiLokal.id!%0A%0ASaya%20tertarik%20untuk%20*melihat%20demo%20sistem*%20dan%20ingin%20konsultasi%20otomasi%20untuk%20bisnis%20saya." target="_blank" class="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-sm flex items-center justify-center gap-2 active:scale-95 cursor-pointer">
+                    <i class="ph ph-play-circle text-2xl text-primary-500"></i>
+                    Lihat Demo Sistem
+                </a>
+            </div>
+            
+            <!-- Dashboard Mockup -->
+            <div class="mt-16 md:mt-20 relative mx-auto max-w-5xl animate-float px-4 md:px-0">
+                <div class="rounded-2xl border border-slate-200 bg-white/50 backdrop-blur-sm p-1.5 md:p-2 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" alt="Dashboard Preview" class="rounded-xl border border-slate-100 shadow-sm w-full object-cover max-h-[400px] md:max-h-[600px]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FITUR / PAIN POINTS ================= -->
+    <section id="fitur" class="py-16 md:py-24 bg-white border-y border-slate-100 scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Masih sering mengalami ini?</h2>
+                <p class="text-base md:text-lg text-slate-600 px-4">Cara manual membuat bisnis Anda lambat berkembang dan rentan kehilangan pelanggan.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Card 1 -->
+                <div class="bg-red-50/50 border border-red-100 p-6 md:p-8 rounded-2xl text-center sm:text-left transition-transform hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center text-2xl mb-4 mx-auto sm:mx-0">
+                        <i class="ph ph-whatsapp-logo"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-2">Booking Tercecer</h3>
+                    <p class="text-slate-600 text-sm md:text-base">Chat pelanggan tertumpuk di WhatsApp, sulit dilacak dan sering terlewat.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-orange-50/50 border border-orange-100 p-6 md:p-8 rounded-2xl text-center sm:text-left transition-transform hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-orange-100 text-orange-500 rounded-xl flex items-center justify-center text-2xl mb-4 mx-auto sm:mx-0">
+                        <i class="ph ph-database"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-2">Data Pelanggan Hilang</h3>
+                    <p class="text-slate-600 text-sm md:text-base">Tidak punya database rapi. Saat HP rusak, semua kontak pelanggan ikut hilang.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-yellow-50/50 border border-yellow-100 p-6 md:p-8 rounded-2xl text-center sm:text-left transition-transform hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-xl flex items-center justify-center text-2xl mb-4 mx-auto sm:mx-0">
+                        <i class="ph ph-calendar-x"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-2">Jadwal Bentrok</h3>
+                    <p class="text-slate-600 text-sm md:text-base">Pencatatan manual menyebabkan jadwal layanan bentrok dan pelanggan kecewa.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-purple-50/50 border border-purple-100 p-6 md:p-8 rounded-2xl text-center sm:text-left transition-transform hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-500 rounded-xl flex items-center justify-center text-2xl mb-4 mx-auto sm:mx-0">
+                        <i class="ph ph-clock-countdown"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-2">Admin Kewalahan</h3>
+                    <p class="text-slate-600 text-sm md:text-base">Waktu habis hanya untuk rekap data dan balas chat yang sama berulang kali.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SOLUSI SECTION ================= -->
+    <section id="solusi" class="py-16 md:py-24 bg-slate-50 scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+                <span class="text-primary-500 font-semibold tracking-wider uppercase text-sm">Solusi Kami</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-dark mt-2 mb-4">Satu platform untuk semua kebutuhan operasional</h2>
+            </div>
+
+            <!-- Row 1 -->
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-16 md:mb-24">
+                <div class="w-full md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80" alt="Operasional Rapi" class="rounded-2xl shadow-xl border border-slate-200 w-full object-cover">
+                </div>
+                <div class="w-full md:w-1/2 text-center md:text-left">
+                    <div class="w-14 h-14 bg-primary-100 text-primary-600 rounded-2xl flex items-center justify-center text-3xl mb-6 mx-auto md:mx-0">
+                        <i class="ph ph-squares-four"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-dark mb-4">Operasional Rapi & Terpusat</h3>
+                    <p class="text-base md:text-lg text-slate-600 mb-6">
+                        Semua booking, pesanan, dan jadwal tersusun otomatis dalam satu dashboard interaktif. Sangat cocok untuk berbagai UMKM seperti <b>barbershop, tempat kursus, salon, klinik, F&B, hingga studio kreatif</b>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 mb-12 md:mb-24">
+                <div class="w-full md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80" alt="Database Pelanggan" class="rounded-2xl shadow-xl border border-slate-200 w-full object-cover">
+                </div>
+                <div class="w-full md:w-1/2 text-center md:text-left">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-6 mx-auto md:mx-0">
+                        <i class="ph ph-users-three"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-dark mb-4">Aset Database Pelanggan</h3>
+                    <p class="text-base md:text-lg text-slate-600 mb-6">
+                        Setiap transaksi otomatis tersimpan menjadi database pelanggan. Gunakan data ini untuk program loyalitas dan meningkatkan *retention rate* bisnis Anda.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= HARGA SECTION ================= -->
+    <section id="harga" class="py-16 md:py-24 bg-white border-t border-slate-100 scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-dark mb-4">Investasi cerdas untuk bisnis Anda</h2>
+                <p class="text-base md:text-lg text-slate-600">Pilih paket yang sesuai dengan skala bisnis Anda.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto items-stretch">
+                <!-- Paket Starter -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl transition-all h-full flex flex-col">
+                    <h3 class="text-2xl font-bold text-dark mb-2">Starter</h3>
+                    <p class="text-slate-500 mb-6 flex-grow">Sempurna untuk digitalisasi dan pendataan awal.</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold text-dark">Rp 1.5<span class="text-xl">jt</span></span>
+                    </div>
+                    <a href="https://wa.me/6282150246420?text=Halo%20SolusiLokal.id!%0A%0ASaya%20tertarik%20untuk%20mengambil%20*Paket%20Starter*.%0AMohon%20informasi%20lebih%20lanjut%20mengenai%20langkah%20instalasi%20dan%20pembayarannya." target="_blank" class="block w-full text-center bg-slate-100 hover:bg-slate-200 text-dark font-semibold py-4 rounded-xl transition mb-8 active:scale-95 cursor-pointer">
+                        Pilih Starter
+                    </a>
+                    <ul class="space-y-4 text-slate-600 text-sm">
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> 1 Landing Page Profesional</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Custom Booking / Order Form</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Database Pelanggan Dasar</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Notifikasi WhatsApp Dasar</li>
+                    </ul>
+                </div>
+
+                <!-- Paket Business -->
+                <div class="bg-dark border-2 border-primary-500 rounded-3xl p-6 md:p-8 shadow-2xl relative transform lg:-translate-y-4 h-full flex flex-col order-first md:order-none col-span-1 md:col-span-2 lg:col-span-1">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary-500 text-white px-4 py-1 rounded-full text-sm font-bold tracking-wide uppercase">Populer</div>
+                    <h3 class="text-2xl font-bold text-white mb-2 mt-2">Business</h3>
+                    <p class="text-slate-400 mb-6 flex-grow">Untuk UMKM & Studio yang butuh manajemen jadwal aktif.</p>
+                    <div class="mb-6 text-white">
+                        <span class="text-4xl font-extrabold">Rp 2.5<span class="text-xl">jt</span></span>
+                    </div>
+                    <a href="https://wa.me/6282150246420?text=Halo%20SolusiLokal.id!%0A%0ASaya%20tertarik%20untuk%20mengambil%20*Paket%20Business*.%0AMohon%20informasi%20lebih%20lanjut%20mengenai%20langkah%20instalasi%20dan%20pembayarannya." target="_blank" class="block w-full text-center bg-primary-500 hover:bg-primary-600 text-white font-semibold py-4 rounded-xl transition mb-8 shadow-lg shadow-primary-500/30 active:scale-95 cursor-pointer">
+                        Pilih Business
+                    </a>
+                    <ul class="space-y-4 text-slate-300 text-sm">
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Semua fitur Starter</li>
+                        <li class="flex gap-3 text-white font-medium"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Dashboard Admin Lengkap</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Manajemen Jadwal & Hindari Bentrok</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Analitik & Laporan Penjualan</li>
+                    </ul>
+                </div>
+
+                <!-- Paket Pro -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl transition-all h-full flex flex-col">
+                    <h3 class="text-2xl font-bold text-dark mb-2">Pro</h3>
+                    <p class="text-slate-500 mb-6 flex-grow">Solusi spesifik untuk skala besar & multi-cabang.</p>
+                    <div class="mb-6 text-dark font-extrabold text-3xl">Custom</div>
+                    <a href="https://wa.me/6282150246420?text=Halo%20SolusiLokal.id!%0A%0ASaya%20tertarik%20untuk%20mengambil%20*Paket%20Pro/Custom*.%0AMohon%20informasi%20lebih%20lanjut%20mengenai%20langkah%20instalasi%20dan%20pembayarannya." target="_blank" class="mt-2 block w-full text-center bg-slate-100 hover:bg-slate-200 text-dark font-semibold py-4 rounded-xl transition mb-8 active:scale-95 cursor-pointer">
+                        Hubungi Kami
+                    </a>
+                    <ul class="space-y-4 text-slate-600 text-sm">
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Sistem Automasi Penuh</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Custom Fitur (Sesuai Request)</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Multi-admin Access</li>
+                        <li class="flex gap-3"><i class="ph ph-check-circle text-primary-500 text-xl shrink-0"></i> Prioritas Support 24/7</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= TESTIMONI ================= -->
+    <section class="py-20 bg-slate-50 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-dark mb-6">Didesain oleh praktisi yang paham kebutuhan lokal.</h2>
+                    <p class="text-lg text-slate-600 mb-8">Kami mengerti dinamika UMKM. Sistem ini dibuat agar Anda bisa fokus pada karya Anda, sementara sistem kami mengurus administrasi.</p>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 relative">
+                        <i class="ph-fill ph-quotes text-4xl text-primary-100 absolute top-4 right-4"></i>
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-slate-200 rounded-full overflow-hidden">
+                                <img src="https://ui-avatars.com/api/?name=L&background=12B8B0&color=fff" alt="Avatar">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark">Owner lunilooks</h4>
+                                <div class="text-sm text-yellow-500 flex gap-1">
+                                    <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 italic">"Sebelumnya pesanan sering keteteran di WA. Semenjak pakai sistem ini, operasional kedai dan jadwal studio lebih tertata. Database pelanggan juga gampang ditarik untuk promo!"</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=400&q=80" alt="F&B Business" class="rounded-2xl shadow-md h-48 w-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=400&q=80" alt="Creative Studio" class="rounded-2xl shadow-md h-48 w-full object-cover mt-8">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FLOATING WHATSAPP ================= -->
+    <div id="floating-wa-container" class="fixed bottom-24 md:bottom-[20%] right-4 md:right-6 z-50 flex flex-col items-end gap-2">
+        <button id="btn-close-floating-wa" class="bg-white hover:bg-slate-100 text-slate-500 hover:text-red-500 rounded-full p-1 shadow-md border border-slate-200 w-8 h-8 flex items-center justify-center transition-colors active:scale-95 cursor-pointer focus:outline-none">
+            <i class="ph ph-x text-sm font-bold"></i>
+        </button>
+        <!-- Menggunakan tag <a> Murni untuk keamanan GAS -->
+        <a href="https://wa.me/6282150246420?text=Halo%20SolusiLokal.id,%20saya%20ingin%20konsultasi%20mengenai%20sistem%20otomasi." target="_blank" class="bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#20bd5a] transition-transform transform hover:scale-110 active:scale-95 flex items-center justify-center relative cursor-pointer focus:outline-none">
+            <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+            <span class="absolute inset-0 animate-ping rounded-full bg-[#25D366] opacity-40"></span>
+        </a>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-dark text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            
+            <!-- Logo Vektor Responsif (Footer) -->
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <svg viewBox="0 0 100 100" class="h-8 w-8 flex-shrink-0" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <clipPath id="logo-hole-footer">
+                            <path d="M0,0 H100 V100 H0 Z M50,25 L75,50 L50,75 L25,50 Z" clip-rule="evenodd" fill-rule="evenodd" />
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#logo-hole-footer)">
+                        <path d="M0,25 L0,0 L50,0 L75,25 L25,25 L25,75 L0,100 Z" fill="#00D0C5" />
+                        <polygon points="75,25 100,0 100,75 75,75" fill="#FF0066" />
+                        <polygon points="25,75 75,75 100,100 50,100" fill="#FFC200" />
+                        <polygon points="25,25 75,25 50,50" fill="#D427A5" />
+                        <polygon points="75,25 75,75 50,50" fill="#F78F1E" />
+                        <polygon points="25,25 25,75 50,50" fill="#44D677" />
+                    </g>
+                </svg>
+                <div class="flex flex-col justify-center leading-[1.15] tracking-tighter select-none text-left">
+                    <span class="text-[1rem] font-black text-white">Solusi</span>
+                    <span class="text-[1rem] font-black text-white">Lokal.ID</span>
+                </div>
+            </div>
+
+            <p class="text-sm">© 2026 SolusiLokal.id. All rights reserved.</p>
+            <div class="flex justify-center gap-4">
+                <a href="https://www.instagram.com/solusilokal.id/?hl=en" target="_blank" class="text-slate-400 hover:text-white transition-colors flex items-center gap-2 group p-2">
+                    <i class="ph ph-instagram-logo text-2xl group-hover:scale-110 transition-transform"></i>
+                    <span class="text-sm font-medium">@solusilokal.id</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= JAVASCRIPT LOGIC (SANGAT RINGAN) ================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.getElementById('main-nav');
+            const btnMobileMenu = document.getElementById('btn-mobile-menu');
+            const menuOverlay = document.getElementById('mobile-menu-overlay');
+            const floatingWaContainer = document.getElementById('floating-wa-container');
+            const btnCloseFloatingWa = document.getElementById('btn-close-floating-wa');
+
+            // --- LOGIKA 1: Tutup Widget WA Floating ---
+            btnCloseFloatingWa.addEventListener('click', () => {
+                floatingWaContainer.style.display = 'none';
+            });
+
+            // --- LOGIKA 2: Menu Mobile (Hamburger) ---
+            btnMobileMenu.addEventListener('click', () => {
+                const isHidden = menuOverlay.classList.contains('hidden');
+                if(isHidden) {
+                    menuOverlay.classList.remove('hidden');
+                    btnMobileMenu.innerHTML = '<i class="ph ph-x text-3xl transition-transform duration-300 rotate-90"></i>';
+                } else {
+                    menuOverlay.classList.add('hidden');
+                    btnMobileMenu.innerHTML = '<i class="ph ph-list text-3xl transition-transform duration-300"></i>';
+                }
+            });
+
+            // --- LOGIKA 3: Tutup Menu Mobile Saat Link / Tombol Diklik ---
+            const closeMobileMenuEls = document.querySelectorAll('.close-mobile-on-click, .nav-link');
+            closeMobileMenuEls.forEach(el => {
+                el.addEventListener('click', () => {
+                    if(!menuOverlay.classList.contains('hidden')) {
+                        menuOverlay.classList.add('hidden');
+                        btnMobileMenu.innerHTML = '<i class="ph ph-list text-3xl transition-transform duration-300"></i>';
+                    }
+                });
+            });
+
+            // --- LOGIKA 4: Navigasi Anchor (Smooth Scroll) ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetEl = document.getElementById(targetId);
+                    
+                    if(targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // --- LOGIKA 5: Navbar Efek Bayangan saat di-scroll ---
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    nav.classList.add('shadow-md', 'py-2');
+                    nav.classList.remove('py-4');
+                } else {
+                    nav.classList.remove('shadow-md', 'py-2');
+                    nav.classList.add('py-4');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
